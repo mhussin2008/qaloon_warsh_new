@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'index_data.dart';
 // import 'package:zoom_widget/zoom_widget.dart';
 
 class MainScreen extends StatefulWidget {
@@ -20,19 +21,55 @@ class _MainScreenState extends State<MainScreen> {
 
   bool rewaya = true;
   String current_rewaya = 'assets/qaloon/Kaloon- ';
-  int pageNumber = 3;
+  int pageNumber = 1;
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Image.asset(current_title) ,),
+      drawer: SafeArea(
+
+        child: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+            child: ListView.builder(
+                padding: const EdgeInsets.all(0),
+                itemCount: suraNames.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Row(
+                          children: [
+                            Text(' ${suraPageNum[index]}'),
+                            Expanded(
+                                child: SizedBox(
+                                    child: Text(
+                                      suraNames[index],
+                                      textAlign: TextAlign.right,
+                                    )
+                                )
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          pageNumber = suraPageNum[index] ;
+                          //privacy=true;
+                         // _makeFileName();
+                        });
+                        Navigator.pop(context);
+                      });
+                })),
+      ),
+
 
       body: SafeArea(
-        child: Column(
-          children: [
-          Image.asset(current_title) ,
-            SizedBox(height: 20,)
-            ,
+        child:
           Dismissible(
 
               onDismissed: (DismissDirection direction) {
@@ -51,9 +88,9 @@ class _MainScreenState extends State<MainScreen> {
                       child: Image.asset('$current_rewaya($pageNumber).jpg',))
               ),
             ),
-          ],
+          
         ),
-      ),
+
       floatingActionButton: IconButton(onPressed: () {
         setState(() {
           rewaya = !rewaya;
