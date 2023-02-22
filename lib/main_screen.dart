@@ -23,12 +23,23 @@ class _MainScreenState extends State<MainScreen> {
   String current_rewaya = 'assets/qaloon/Kaloon- ';
   int pageNumber = 1;
   var dropdownvalue='إختر رقم الآية';
-  List<String> ayaList=['إختر رقم الآية','5','6','7','8'];
+  List<String> ayaList=['إختر رقم الآية','البقرة   5','الأنفال   6','7','8'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Image.asset(current_title) ,
+      appBar: AppBar(
+        title:
+        GestureDetector(onTap: (){
+          setState(() {
+            rewaya = !rewaya;
+            current_rewaya = rewaya ? Qaloon_path : Warsh_path;
+            current_title=rewaya ? Qaloon_title:Warsh_title;
+          });
+        },
+            child: Image.asset(current_title),
+        ) ,
+
         actions: [IconButton(icon: Image.asset('assets/icons/icons8-left-94.png'), onPressed: () { _pageGoForword(); })
         ,SizedBox(width: 40,),
 
@@ -43,13 +54,26 @@ class _MainScreenState extends State<MainScreen> {
             // Array list of items
             items: ayaList.map((String items) {
               return DropdownMenuItem(
+                alignment: Alignment.centerRight,
                 value: items,
-                child: Text(items),
+                child: Text(
+
+                    items
+                ,
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.rtl,
+                ),
               );
             }).toList(),
             // After selecting the desired option,it will
             // change button value to selected value
-            onChanged: (t){}
+            onChanged: (t){
+              setState(() {
+                dropdownvalue=t??ayaList[0];
+
+
+              });
+            }
           )
 
 
@@ -143,17 +167,7 @@ class _MainScreenState extends State<MainScreen> {
           
         ),
 
-      floatingActionButton: IconButton(onPressed: () {
-        setState(() {
-          rewaya = !rewaya;
-          current_rewaya = rewaya ? Qaloon_path : Warsh_path;
-          current_title=rewaya ? Qaloon_title:Warsh_title;
-        });
-      }, icon:Icon(
-          size:40,
-          Icons.account_circle_rounded),
 
-      ),
     );
   }
 
