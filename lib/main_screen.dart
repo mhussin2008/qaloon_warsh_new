@@ -22,12 +22,44 @@ class _MainScreenState extends State<MainScreen> {
   bool rewaya = true;
   String current_rewaya = 'assets/qaloon/Kaloon- ';
   int pageNumber = 1;
-
+  var dropdownvalue='إختر رقم الآية';
+  List<String> ayaList=['إختر رقم الآية','5','6','7','8'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Image.asset(current_title) ,),
+      appBar: AppBar(title: Image.asset(current_title) ,
+        actions: [IconButton(icon: Image.asset('assets/icons/icons8-left-94.png'), onPressed: () { _pageGoForword(); })
+        ,SizedBox(width: 40,),
+
+          DropdownButton(
+
+            // Initial Value
+            value:  dropdownvalue,
+
+            // Down Arrow Icon
+            icon: const Icon(Icons.keyboard_arrow_down),
+
+            // Array list of items
+            items: ayaList.map((String items) {
+              return DropdownMenuItem(
+                value: items,
+                child: Text(items),
+              );
+            }).toList(),
+            // After selecting the desired option,it will
+            // change button value to selected value
+            onChanged: (t){}
+          )
+
+
+
+          ,SizedBox(width: 40,)
+          ,IconButton(icon: Image.asset('assets/icons/icons8-right-94.png'), onPressed: () {_pageGoBack() ; })
+          ,SizedBox(width: 40,),
+        ],
+        ),
+
       drawer: SafeArea(
 
         child: Drawer(
@@ -69,25 +101,45 @@ class _MainScreenState extends State<MainScreen> {
 
 
       body: SafeArea(
-        child:
-          Dismissible(
+        child: GestureDetector(
+          onTap: (){print('tapped');},
+          onTapUp: (dsd){
+            print('tap up');
+            print('${dsd.globalPosition.dx}  ${dsd.localPosition.dx}');
+            print('${dsd.globalPosition.dy}  ${dsd.localPosition.dy}');
 
-              onDismissed: (DismissDirection direction) {
-                if (direction == DismissDirection.endToStart) {
-                  _pageGoBack();
-                } else {
-                  _pageGoForword();
-                }
-              },
-              key: ValueKey(pageNumber),
-              resizeDuration: null,
-              child: Center(
 
-                  child: InteractiveViewer(
-                      panEnabled: false,
-                      child: Image.asset('$current_rewaya($pageNumber).jpg',))
-              ),
-            ),
+          },
+
+
+          child: InteractiveViewer(
+                                panEnabled: false,
+                                child: Image.asset('$current_rewaya($pageNumber).jpg',)
+                ),
+        )
+
+
+
+
+
+          // Dismissible(
+          //
+          //     onDismissed: (DismissDirection direction) {
+          //       if (direction == DismissDirection.endToStart) {
+          //         _pageGoBack();
+          //       } else {
+          //         _pageGoForword();
+          //       }
+          //     },
+          //     key: ValueKey(pageNumber),
+          //     resizeDuration: null,
+          //     child: Center(
+          //
+          //         child: InteractiveViewer(
+          //             panEnabled: false,
+          //             child: Image.asset('$current_rewaya($pageNumber).jpg',))
+          //     ),
+          //   ),
           
         ),
 
