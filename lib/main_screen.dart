@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaloon_warsh_new/main.dart';
 import 'index_data.dart';
 // import 'package:zoom_widget/zoom_widget.dart';
 
@@ -22,11 +23,32 @@ class _MainScreenState extends State<MainScreen> {
   bool rewaya = true;
   String current_rewaya = 'assets/qaloon/Kaloon- ';
   int pageNumber = 1;
-  var dropdownvalue='إختر رقم الآية';
+  var dropdownvalue='';
   List<String> ayaList=['إختر رقم الآية','البقرة   5','الأنفال   6','7','8'];
+  var pagedata=[];
 
   @override
   Widget build(BuildContext context) {
+     pagedata=arabic.where((element) => element['page']==pageNumber).toList();
+     print(pagedata.length);
+     print(pagedata[0]);
+     dropdownvalue=pagedata[0]['aya_no'].toString();
+     print('dropdownvalue =$dropdownvalue');
+     List<DropdownMenuItem<String>>? dropdownlist=[];
+
+     pagedata.forEach((element) {
+       dropdownlist.add(
+           DropdownMenuItem(
+               alignment: Alignment.centerRight,
+               child: Text(element['aya_no'].toString()) ,
+             value: element['aya_no'].toString(),
+
+        ));
+       print(element['aya_no'].toString());
+     });
+     //print(pagedata[1]['aya_no'].toString());
+     //pagedata.map((e) => print(e['aya_no'].toString()));
+
     return Scaffold(
       appBar: AppBar(
         title:
@@ -40,48 +62,7 @@ class _MainScreenState extends State<MainScreen> {
             child: Image.asset(current_title),
         ) ,
 
-        actions: [IconButton(icon: Image.asset('assets/icons/icons8-left-94.png'), onPressed: () { _pageGoForword(); })
-        ,SizedBox(width: 40,),
-
-          DropdownButton(
-
-            // Initial Value
-            value:  dropdownvalue,
-
-            // Down Arrow Icon
-            icon: const Icon(Icons.keyboard_arrow_down),
-
-            // Array list of items
-            items: ayaList.map((String items) {
-              return DropdownMenuItem(
-                alignment: Alignment.centerRight,
-                value: items,
-                child: Text(
-
-                    items
-                ,
-                  textAlign: TextAlign.right,
-                  textDirection: TextDirection.rtl,
-                ),
-              );
-            }).toList(),
-            // After selecting the desired option,it will
-            // change button value to selected value
-            onChanged: (t){
-              setState(() {
-                dropdownvalue=t??ayaList[0];
-
-
-              });
-            }
-          )
-
-
-
-          ,SizedBox(width: 40,)
-          ,IconButton(icon: Image.asset('assets/icons/icons8-right-94.png'), onPressed: () {_pageGoBack() ; })
-          ,SizedBox(width: 40,),
-        ],
+       
         ),
 
       drawer: SafeArea(
@@ -125,50 +106,78 @@ class _MainScreenState extends State<MainScreen> {
 
 
       body: SafeArea(
-        child: GestureDetector(
-          onTap: (){print('tapped');},
-          onTapUp: (dsd){
-            print('tap up');
-            print('${dsd.globalPosition.dx}  ${dsd.localPosition.dx}');
-            print('${dsd.globalPosition.dy}  ${dsd.localPosition.dy}');
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: (){print('tapped');},
+              onTapUp: (dsd){
+                print('tap up');
+                print('${dsd.globalPosition.dx}  ${dsd.localPosition.dx}');
+                print('${dsd.globalPosition.dy}  ${dsd.localPosition.dy}');
+              },
+              child: InteractiveViewer(
+                                    panEnabled: false,
+                                    child: Image.asset('$current_rewaya($pageNumber).jpg',)
+                    ),
+            ),
+            const SizedBox(height: 20,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+
+              children:
+            [
+              Expanded(child: IconButton(iconSize:40,icon: Image.asset('assets/icons/icons8-left-94.png'), onPressed: () { _pageGoForword(); }))
+              // ,SizedBox(width: 40,)
+             ,
+
+              //drop down list
+              Expanded(
+                child: DropdownButton(
+                    alignment: AlignmentDirectional.center,
+                  // Initial Value
+                    value:  dropdownvalue,
+
+                    // Down Arrow Icon
+                    icon: const Icon(Icons.keyboard_arrow_down),
+
+                    // Array list of items
+                    items: dropdownlist,
+                    // After selecting the desired option,it will
+                    // change button value to selected value
+                    onChanged: (var t){
+                      setState(() {
+                        print(t.toString());
+                        dropdownvalue=t.toString();
 
 
-          },
-
-
-          child: InteractiveViewer(
-                                panEnabled: false,
-                                child: Image.asset('$current_rewaya($pageNumber).jpg',)
+                      });
+                    }
                 ),
-        )
+              )
+
+            //   ,Expanded(
+            //     child: IconButton(onPressed: (){
+            //       var pagedata=arabic.where((element) => element['page']==3);
+            //       print (pagedata);
+            //       },
+            //       icon: Icon(Icons.account_balance
+            //
+            //       )
+            // ),
+            //   )
+              ,
+              Expanded(child: IconButton(iconSize:40,icon: Image.asset('assets/icons/icons8-right-94.png'), onPressed: () {_pageGoBack() ; }))
+              //,SizedBox(width: 40,),
+            ],
 
 
 
-
-
-          // Dismissible(
-          //
-          //     onDismissed: (DismissDirection direction) {
-          //       if (direction == DismissDirection.endToStart) {
-          //         _pageGoBack();
-          //       } else {
-          //         _pageGoForword();
-          //       }
-          //     },
-          //     key: ValueKey(pageNumber),
-          //     resizeDuration: null,
-          //     child: Center(
-          //
-          //         child: InteractiveViewer(
-          //             panEnabled: false,
-          //             child: Image.asset('$current_rewaya($pageNumber).jpg',))
-          //     ),
-          //   ),
+        )]
           
         ),
 
 
-    );
+    ));
   }
 
 
