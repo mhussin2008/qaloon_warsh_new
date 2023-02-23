@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qaloon_warsh_new/main.dart';
+import 'faces_page.dart';
 import 'index_data.dart';
 // import 'package:zoom_widget/zoom_widget.dart';
 
@@ -19,17 +20,23 @@ class _MainScreenState extends State<MainScreen> {
   String Qaloon_title='assets/frames/qaloon.jpg';
   String Warsh_title='assets/frames/warsh.jpg';
   String current_title='assets/frames/qaloon.jpg';
+  int surah=0;
+  int ayah=0;
+
 
   bool rewaya = true;
   String current_rewaya = 'assets/qaloon/Kaloon- ';
   int pageNumber = 1;
   var dropdownvalue='';
-  List<String> ayaList=['إختر رقم الآية','البقرة   5','الأنفال   6','7','8'];
+  //List<String> ayaList=['إختر رقم الآية','البقرة   5','الأنفال   6','7','8'];
   var pagedata=[];
 
   @override
   Widget build(BuildContext context) {
      pagedata=arabic.where((element) => element['page']==pageNumber).toList();
+    print(pagedata[0]['sura_no']);
+     surah=pagedata[0]['sura_no'];
+     print('sura ==$surah');
      print(pagedata.length);
      print(pagedata[0]);
      dropdownvalue=pagedata[0]['aya_no'].toString();
@@ -146,11 +153,18 @@ class _MainScreenState extends State<MainScreen> {
                     // change button value to selected value
                     onChanged: (var t){
                       setState(() {
+                        ayah=int.parse(t.toString());
                         print(t.toString());
                         dropdownvalue=t.toString();
 
 
-                      });
+                    Navigator.push(context,
+                    MaterialPageRoute(
+                     builder: (context) => facesPage(surah: surah,aya:ayah ,)
+                        )
+                        );
+//dev.log('surah '+(widget.surah+1).toString() +' aya '+(index+1).toString());
+                           });
                     }
                 ),
               )
