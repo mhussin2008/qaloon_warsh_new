@@ -13,7 +13,7 @@ import 'package:qaloon_warsh_new/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const QaloonWarshApp());
+    await tester.pumpWidget( QaloonWarshApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
