@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qaloon_warsh_new/main.dart';
 import 'faces_page.dart';
 import 'index_data.dart';
+import 'sura_names.dart';
 // import 'package:zoom_widget/zoom_widget.dart';
 
 class MainScreen extends StatefulWidget {

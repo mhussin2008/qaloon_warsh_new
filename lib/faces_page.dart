@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:qaloon_warsh_new/index_data.dart';
 import 'main.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'dart:developer' as dev;
+import 'sura_names.dart';
 
 
 
@@ -19,11 +21,13 @@ class _facesPageState extends State<facesPage> {
   Widget build(BuildContext context) {
 
     var yyy=faces.where((element) => element['surah']==widget.surah && element['aya']==widget.aya);
+    //var suraName=arabicName.where((element) => element['surah']==widget.surah.toString()).toList().first['name'];
     print(yyy);
     print('surah===${widget.surah}');
     print('aya===${widget.aya}');
-    var t='أوجه الآية  ${widget.aya}  من سورة ';
-        //+ arabicName[widget.surah]['name'];
+    //  {"surah":"1", "name": "الفاتحة"},
+    var suraName=arabicName[widget.surah]['name'];
+    var t=' أوجه الآية  ${widget.aya} من سورة $suraName ';
     return Scaffold(
       appBar: AppBar(
 
