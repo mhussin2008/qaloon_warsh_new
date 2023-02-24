@@ -218,7 +218,7 @@ class _MainScreenState extends State<MainScreen> {
 
 
       print('still loading');
-      return Text('Loading');
+      return SafeArea(child: Text('Loading'));
     }
   }
 

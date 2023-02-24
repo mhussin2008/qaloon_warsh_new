@@ -26,7 +26,7 @@ class _facesPageState extends State<facesPage> {
     print('surah===${widget.surah}');
     print('aya===${widget.aya}');
     //  {"surah":"1", "name": "الفاتحة"},
-    var suraName=arabicName[widget.surah]['name'];
+    var suraName=arabicName[widget.surah-1]['name'];
     var t=' أوجه الآية  ${widget.aya} من سورة $suraName ';
     return Scaffold(
       appBar: AppBar(
