@@ -62,9 +62,12 @@ class _MainScreenState extends State<MainScreen> {
       List<DropdownMenuItem<String>>? dropdownlist = [];
 
       pagedata.forEach((element) {
+        int newaya=element['aya_no'];
         dropdownlist.add(DropdownMenuItem(
           alignment: Alignment.centerRight,
-          child: Text(element['aya_no'].toString()),
+          child: Text(
+              newaya.toString()
+          ),
           value: element['aya_no'].toString(),
         ));
         print(element['aya_no'].toString());
