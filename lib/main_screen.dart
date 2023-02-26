@@ -65,8 +65,13 @@ class _MainScreenState extends State<MainScreen> {
         int newaya=element['aya_no'];
         dropdownlist.add(DropdownMenuItem(
           alignment: Alignment.centerRight,
-          child: Text(
-              newaya.toString()
+          child: SizedBox(
+            width: 100,
+            child: Text(
+
+                newaya.toString(),
+              textAlign: TextAlign.right,
+            ),
           ),
           value: element['aya_no'].toString(),
         ));
@@ -140,6 +145,7 @@ class _MainScreenState extends State<MainScreen> {
               const SizedBox(
                 height: 20,
               ),
+              const Center(child: Text('إختر رقم الآية لبيان الأوجه')),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -156,7 +162,8 @@ class _MainScreenState extends State<MainScreen> {
                   //drop down list
                   Expanded(
                     child: DropdownButton(
-                        alignment: AlignmentDirectional.center,
+
+                        alignment: AlignmentDirectional.centerEnd,
                         // Initial Value
                         value: dropdownvalue,
 
