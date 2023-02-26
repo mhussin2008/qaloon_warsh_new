@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:qaloon_warsh_new/arabic_number_converter.dart';
 import 'package:qaloon_warsh_new/main.dart';
 import 'faces_page.dart';
 import 'index_data.dart';
@@ -69,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
             width: 100,
             child: Text(
 
-                newaya.toString(),
+                newaya.toString().toArabicNumbers,
               textAlign: TextAlign.right,
             ),
           ),
@@ -105,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
                             padding: const EdgeInsets.all(5.0),
                             child: Row(
                               children: [
-                                Text(' ${suraPageNum[index]}'),
+                                Text(' ${suraPageNum[index].toArabicNumbers}'),
                                 Expanded(
                                     child: SizedBox(
                                         child: Text(
@@ -178,7 +179,7 @@ class _MainScreenState extends State<MainScreen> {
                           setState(() {
                             ayah = int.parse(t.toString());
                             print(t.toString());
-                            dropdownvalue = t.toString();
+                            dropdownvalue = t.toString().toArabicNumbers;
                             var yyy=faces.where((element) => element['surah']==surah && element['aya']==ayah);
                             if(yyy.isEmpty==false){
                             Navigator.push(
