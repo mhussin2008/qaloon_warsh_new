@@ -4,6 +4,7 @@ import 'main.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'dart:developer' as dev;
 import 'sura_names.dart';
+import 'arabic_number_converter.dart';
 
 
 
@@ -27,7 +28,8 @@ class _facesPageState extends State<facesPage> {
     print('aya===${widget.aya}');
     //  {"surah":"1", "name": "الفاتحة"},
     var suraName=arabicName[widget.surah-1]['name'];
-    var t=' أوجه الآية  ${widget.aya} من سورة $suraName ';
+    var ayanumber=widget.aya.toString().toArabicNumbers;
+    var t=' أوجه الآية  ${ayanumber} من سورة $suraName ';
     return Scaffold(
       appBar: AppBar(
 
