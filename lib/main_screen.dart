@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:qaloon_warsh_new/arabic_number_converter.dart';
 import 'package:qaloon_warsh_new/main.dart';
+import 'package:qaloon_warsh_new/qatra_page.dart';
 import 'faces_page.dart';
 import 'index_data.dart';
 import 'sura_names.dart';
@@ -27,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   String current_title = 'assets/frames/qaloon.jpg';
   int surah = 0;
   int ayah = 0;
+  bool showvalue=false;
 
   bool rewaya = true;
   String current_rewaya = 'assets/qaloon/Kaloon- ';
@@ -146,72 +149,94 @@ class _MainScreenState extends State<MainScreen> {
               const SizedBox(
                 height: 20,
               ),
-              const Center(child: Text('إختر رقم الآية لبيان الأوجه')),
+              const Center(child: Text('إختر رقم الآية لبيان الأوجه',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold
+              ),
+              )),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                      child: IconButton(
-                          iconSize: 40,
-                          icon: Image.asset('assets/icons/icons8-left-94.png'),
-                          onPressed: () {
-                            _pageGoForword();
-                          }))
+                  IconButton(
+                      iconSize: 40,
+                      icon: Image.asset('assets/icons/icons8-left-94.png'),
+                      onPressed: () {
+                        _pageGoForword();
+                      })
                   // ,SizedBox(width: 40,)
                   ,
 
                   //drop down list
-                  Expanded(
-                    child: DropdownButton(
+                  SizedBox(
+                    width: 250,
+                    child: Row(
+                      children: [
+                        DropdownButton(
 
-                        alignment: AlignmentDirectional.centerEnd,
-                        // Initial Value
-                        value: dropdownvalue,
+                            alignment: AlignmentDirectional.centerEnd,
+                            // Initial Value
+                            value: dropdownvalue,
 
-                        // Down Arrow Icon
-                        icon: const Icon(Icons.keyboard_arrow_down),
+                            // Down Arrow Icon
+                            icon: const Icon(Icons.keyboard_arrow_down),
 
-                        // Array list of items
-                        items: dropdownlist,
-                        // After selecting the desired option,it will
-                        // change button value to selected value
-                        onChanged: (var t) {
-                          setState(() {
-                            ayah = int.parse(t.toString());
-                            print(t.toString());
-                            dropdownvalue = t.toString().toArabicNumbers;
-                            var yyy=faces.where((element) => element['surah']==surah && element['aya']==ayah);
-                            if(yyy.isEmpty==false){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => facesPage(
-                                          surah: surah,
-                                          aya: ayah,
-                                        )));}
+                            // Array list of items
+                            items: dropdownlist,
+                            // After selecting the desired option,it will
+                            // change button value to selected value
+                            onChanged: (var t) {
+                              setState(() {
+                                ayah = int.parse(t.toString());
+                                print(t.toString());
+                                dropdownvalue = t.toString().toArabicNumbers;
+                                var yyy=faces.where((element) => element['surah']==surah && element['aya']==ayah);
+
+                                if(yyy.isEmpty==false)
+                                if(this.showvalue==true){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => facesPage(
+                                              surah: surah,
+                                              aya: ayah,
+                                            )));}
+                                else{
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => qatraPage(surah: surah,aya: ayah,
+
+                                          )));
+                                }
 //dev.log('surah '+(widget.surah+1).toString() +' aya '+(index+1).toString());
-                          });
-                        }),
+                              });
+                            }),
+                        SizedBox(width: 10),
+                        Text(style: TextStyle(
+
+                        ),
+                            'مقاطع صوتية'),
+                        Checkbox(
+                            value: this.showvalue,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                this.showvalue = value!;
+                              });
+                            }
+                        ),
+                      ],
+                    ),
                   )
 
-                  //   ,Expanded(
-                  //     child: IconButton(onPressed: (){
-                  //       var pagedata=arabic.where((element) => element['page']==3);
-                  //       print (pagedata);
-                  //       },
-                  //       icon: Icon(Icons.account_balance
-                  //
-                  //       )
-                  // ),
-                  //   )
                   ,
-                  Expanded(
-                      child: IconButton(
-                          iconSize: 40,
-                          icon: Image.asset('assets/icons/icons8-right-94.png'),
-                          onPressed: () {
-                            _pageGoBack();
-                          }))
+
+                  IconButton(
+                      iconSize: 40,
+                      icon: Image.asset('assets/icons/icons8-right-94.png'),
+                      onPressed: () {
+                        _pageGoBack();
+                      })
                   //,SizedBox(width: 40,),
                 ],
               )
