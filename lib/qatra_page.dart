@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qaloon_warsh_new/arabic_number_converter.dart';
+import 'package:qaloon_warsh_new/sura_names.dart';
 
 class qatraPage extends StatelessWidget {
   final surah;
@@ -9,6 +11,19 @@ class qatraPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(child: Image.asset('assets/qatra/qatra-$surah-$aya.jpg'),);
+    var suraName = arabicName[surah - 1]['name'];
+    var ayanumber = aya.toString().toArabicNumbers;
+    var t = ' أوجه الآية  ${ayanumber} من سورة $suraName ';
+    return  Scaffold(
+        appBar: AppBar(
+          title: Center(child: Text(t)),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_rounded),
+          ),
+        ),
+        body: Center(child: Image.asset('assets/qatra/qatra-$surah-$aya.jpg'),));
   }
 }
