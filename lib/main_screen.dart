@@ -69,6 +69,7 @@ class _MainScreenState extends State<MainScreen> {
         int newaya=element['aya_no'];
         dropdownlist.add(DropdownMenuItem(
           alignment: Alignment.centerRight,
+          value: element['aya_no'].toString(),
           child: SizedBox(
             width: 100,
             child: Text(
@@ -77,7 +78,6 @@ class _MainScreenState extends State<MainScreen> {
               textAlign: TextAlign.right,
             ),
           ),
-          value: element['aya_no'].toString(),
         ));
         print(element['aya_no'].toString());
       });
@@ -192,22 +192,26 @@ class _MainScreenState extends State<MainScreen> {
                                 dropdownvalue = t.toString().toArabicNumbers;
                                 var yyy=faces.where((element) => element['surah']==surah && element['aya']==ayah);
 
-                                if(yyy.isEmpty==false)
-                                if(this.showvalue==true){
+                                if(yyy.isNotEmpty)
+                                if(showvalue){
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => facesPage(
                                               surah: surah,
                                               aya: ayah,
-                                            )));}
+                                            )
+                                    )
+                                );}
                                 else{
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => qatraPage(surah: surah,aya: ayah,
 
-                                          )));
+                                          )
+                                      )
+                                  );
                                 }
 //dev.log('surah '+(widget.surah+1).toString() +' aya '+(index+1).toString());
                               });
