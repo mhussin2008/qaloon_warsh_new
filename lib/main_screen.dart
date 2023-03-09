@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:qaloon_warsh_new/arabic_number_converter.dart';
 import 'package:qaloon_warsh_new/main.dart';
 import 'package:qaloon_warsh_new/qatra_page.dart';
+import 'package:qaloon_warsh_new/searchPage.dart';
 import 'faces_page.dart';
 import 'index_data.dart';
 import 'sura_names.dart';
@@ -92,8 +93,37 @@ class _MainScreenState extends State<MainScreen> {
                   current_title = rewaya ? Qaloon_title : Warsh_title;
                 });
               },
-              child: Image.asset(current_title),
-            ),
+              child: Image.asset(current_title))
+
+
+             ,
+            // leading: TextButton(onPressed: (){
+            //   Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => searchPage()
+            //       )
+            //   );
+            //
+            // }, child: Text('Search')),
+            // leadingWidth: 120
+            //
+            // ,
+            actions: [
+               IconButton(onPressed: (){
+          Navigator.push(
+                 context,
+                 MaterialPageRoute(
+                    builder: (context) => searchPage()
+                )
+                 );
+
+                }, icon: Image.asset('assets/icons/search-outline-filled.png')
+               )
+
+
+        ,
+            ],
           ),
           drawer: SafeArea(
             child: Drawer(
@@ -147,7 +177,7 @@ class _MainScreenState extends State<MainScreen> {
                     )),
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               const Center(child: Text('إختر رقم الآية لبيان الأوجه',
               style: TextStyle(
