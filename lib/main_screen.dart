@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:qaloon_warsh_new/arabic_number_converter.dart';
 import 'package:qaloon_warsh_new/main.dart';
 import 'package:qaloon_warsh_new/qatra_page.dart';
-import 'package:qaloon_warsh_new/searchPage.dart';
 import 'faces_page.dart';
 import 'index_data.dart';
 import 'sura_names.dart';
@@ -30,7 +28,6 @@ class _MainScreenState extends State<MainScreen> {
   String current_title = 'assets/frames/qaloon.jpg';
   int surah = 0;
   int ayah = 0;
-  bool showvalue=false;
 
   bool rewaya = true;
   String current_rewaya = 'assets/qaloon/Kaloon- ';
@@ -39,11 +36,12 @@ class _MainScreenState extends State<MainScreen> {
   //List<String> ayaList=['إختر رقم الآية','البقرة   5','الأنفال   6','7','8'];
   var pagedata = [];
 
+  var checkValue = false;
+
   @override
   void initState() {
     // TODO: implement initState
 
-    
     super.initState();
   }
 
@@ -53,7 +51,6 @@ class _MainScreenState extends State<MainScreen> {
     //pagedata.map((e) => print(e['aya_no'].toString()));
 
     if (doneRead == true) {
-
       pagedata =
           arabic.where((element) => element['page'] == pageNumber).toList();
       print(pagedata);
@@ -67,18 +64,17 @@ class _MainScreenState extends State<MainScreen> {
       List<DropdownMenuItem<String>>? dropdownlist = [];
 
       pagedata.forEach((element) {
-        int newaya=element['aya_no'];
+        int newaya = element['aya_no'];
         dropdownlist.add(DropdownMenuItem(
           alignment: Alignment.centerRight,
-          value: element['aya_no'].toString(),
           child: SizedBox(
             width: 100,
             child: Text(
-
-                newaya.toString().toArabicNumbers,
+              newaya.toString().toArabicNumbers,
               textAlign: TextAlign.right,
             ),
           ),
+          value: element['aya_no'].toString(),
         ));
         print(element['aya_no'].toString());
       });
@@ -93,37 +89,8 @@ class _MainScreenState extends State<MainScreen> {
                   current_title = rewaya ? Qaloon_title : Warsh_title;
                 });
               },
-              child: Image.asset(current_title))
-
-
-             ,
-            // leading: TextButton(onPressed: (){
-            //   Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //           builder: (context) => searchPage()
-            //       )
-            //   );
-            //
-            // }, child: Text('Search')),
-            // leadingWidth: 120
-            //
-            // ,
-            actions: [
-               IconButton(onPressed: (){
-          Navigator.push(
-                 context,
-                 MaterialPageRoute(
-                    builder: (context) => searchPage()
-                )
-                 );
-
-                }, icon: Image.asset('assets/icons/search-outline-filled.png')
-               )
-
-
-        ,
-            ],
+              child: Image.asset(current_title),
+            ),
           ),
           drawer: SafeArea(
             child: Drawer(
@@ -176,17 +143,21 @@ class _MainScreenState extends State<MainScreen> {
                       '$current_rewaya($pageNumber).jpg',
                     )),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Center(child: Text('إختر رقم الآية لبيان الأوجه',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold
-              ),
-              )),
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 children: [Text('مقاطع صوتية'),
+                   Checkbox(
+                      value: checkValue,
+                      onChanged: (value) {
+                        setState(() {
+                          checkValue = value!;
+                        });
+                      }),
+                 ],
+               ),
+
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
                       iconSize: 40,
@@ -198,72 +169,63 @@ class _MainScreenState extends State<MainScreen> {
                   ,
 
                   //drop down list
-                  SizedBox(
-                    width: 250,
-                    child: Row(
-                      children: [
-                        DropdownButton(
+                  DropdownButton(
+                      alignment: AlignmentDirectional.centerEnd,
+                      // Initial Value
+                      value: dropdownvalue,
 
-                            alignment: AlignmentDirectional.centerEnd,
-                            // Initial Value
-                            value: dropdownvalue,
+                      // Down Arrow Icon
+                      icon: const Icon(Icons.keyboard_arrow_down),
 
-                            // Down Arrow Icon
-                            icon: const Icon(Icons.keyboard_arrow_down),
+                      // Array list of items
+                      items: dropdownlist,
+                      // After selecting the desired option,it will
+                      // change button value to selected value
+                      onChanged: (var t) {
+                        setState(() {
+                          ayah = int.parse(t.toString());
+                          print(t.toString());
+                          dropdownvalue = t.toString().toArabicNumbers;
+                          var yyy = faces.where((element) =>
+                              element['surah'] == surah &&
+                              element['aya'] == ayah);
 
-                            // Array list of items
-                            items: dropdownlist,
-                            // After selecting the desired option,it will
-                            // change button value to selected value
-                            onChanged: (var t) {
-                              setState(() {
-                                ayah = int.parse(t.toString());
-                                print(t.toString());
-                                dropdownvalue = t.toString().toArabicNumbers;
-                                var yyy=faces.where((element) => element['surah']==surah && element['aya']==ayah);
-
-                                if(yyy.isNotEmpty)
-                                if(showvalue){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => facesPage(
-                                              surah: surah,
-                                              aya: ayah,
-                                            )
-                                    )
-                                );}
-                                else{
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => qatraPage(surah: surah,aya: ayah,
-
-                                          )
-                                      )
-                                  );
-                                }
-//dev.log('surah '+(widget.surah+1).toString() +' aya '+(index+1).toString());
-                              });
-                            }),
-                        SizedBox(width: 10),
-                        Text(style: TextStyle(
-
-                        ),
-                            'مقاطع صوتية'),
-                        Checkbox(
-                            value: this.showvalue,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                this.showvalue = value!;
-                              });
+                          if (yyy.isNotEmpty == true) {
+                            if (checkValue == true) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => facesPage(
+                                            surah: surah,
+                                            aya: ayah,
+                                          )));
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => qatraPage(
+                                            surah: surah,
+                                            aya: ayah,
+                                          )));
                             }
-                        ),
-                      ],
-                    ),
-                  )
+                          }
 
+//dev.log('surah '+(widget.surah+1).toString() +' aya '+(index+1).toString());
+                        });
+                      })
+
+                  //   ,Expanded(
+                  //     child: IconButton(onPressed: (){
+                  //       var pagedata=arabic.where((element) => element['page']==3);
+                  //       print (pagedata);
+                  //       },
+                  //       icon: Icon(Icons.account_balance
+                  //
+                  //       )
+                  // ),
+                  //   )
                   ,
+                  Text('إختر رقم الآية '),
 
                   IconButton(
                       iconSize: 40,
@@ -277,15 +239,14 @@ class _MainScreenState extends State<MainScreen> {
             ]),
           ));
     } else {
-
-      Timer t=Timer.periodic(const Duration(seconds: 1), (timer) {
-        if(doneRead==true){timer.cancel();}
+      Timer t = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (doneRead == true) {
+          timer.cancel();
+        }
         setState(() {
           print('setstate called');
-
         });
-            });
-
+      });
 
       print('still loading');
       return SafeArea(child: Text('Loading'));

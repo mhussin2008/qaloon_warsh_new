@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qaloon_warsh_new/searchPage.dart';
 
 import 'main_screen.dart';
 
@@ -28,14 +27,10 @@ Future readJson() async {
   pages = data3['pages'];
   //dev.log(faces[0]['rawy'].toString());
   doneRead = true;
-
   return quran = [arabic];
 }
 
-Future<void> main() async {
- // await readJson();
-  //print('done read');
-  //await WidgetsFlutterBinding.ensureInitialized();
+void main() {
   runApp(QaloonWarshApp());
 }
 
@@ -50,12 +45,12 @@ class _QaloonWarshAppState extends State<QaloonWarshApp> {
   // This widget is the root of your application.
   @override
   void initState() {
-     WidgetsBinding.instance.addPostFrameCallback((_) async {
-       await readJson();
-    //   print('done read');
-    //
-    //   //await getSettings();
-     });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await readJson();
+      print('done read');
+
+      //await getSettings();
+    });
     super.initState();
   }
 
@@ -67,7 +62,7 @@ class _QaloonWarshAppState extends State<QaloonWarshApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  MainScreen(
+      home: const MainScreen(
           // title: 'Flutter Demo Home Page'
           ),
     );
